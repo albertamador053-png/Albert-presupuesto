@@ -1,8 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Balance — Presupuesto quincenal</title>
+
+<!-- iOS: makes "Add to Home Screen" open as a real fullscreen app, no Safari address bar -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Balance">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#171A21" id="themeColorMeta">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj48cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgcng9IjI2IiBmaWxsPSIjMUQyMTJBIi8+PGNpcmNsZSBjeD0iNjAiIGN5PSI2MCIgcj0iNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJFMzM0RiIgc3Ryb2tlLXdpZHRoPSIxMCIvPjxjaXJjbGUgY3g9IjYwIiBjeT0iNjAiIHI9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiM4RkIwQ0MiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWRhc2hhcnJheT0iMTgwIiBzdHJva2UtZGFzaG9mZnNldD0iNjAiIHRyYW5zZm9ybT0icm90YXRlKC05MCA2MCA2MCkiLz48L3N2Zz4=">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
 <style>
+  html, body{ margin:0; padding:0; overscroll-behavior-y:none; -webkit-tap-highlight-color:transparent; }
+  body{ background:#171A21; }
   :root{
     --bg:#F2EFE9; --bg-alt:#E8E3D8; --surface:#FFFFFF; --surface-2:#FBF9F5;
     --ink:#2B2E35; --ink-soft:#6B7078; --border:#E2DDD1;
@@ -30,9 +47,11 @@
   /* ---- Topbar ---- */
   .topbar{
     display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:20px 24px; background:var(--bg); position:sticky; top:0; z-index:20;
+    padding:calc(16px + env(safe-area-inset-top)) 18px 16px; background:var(--bg); position:sticky; top:0; z-index:20;
     border-bottom:1px solid var(--border);
   }
+  /* iOS auto-zooms the page when a focused input's font-size is under 16px — keep every field at 16px+ */
+  input, textarea, select{ font-size:16px; }
   .brand{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; letter-spacing:.5px; display:flex; align-items:baseline; gap:8px;}
   .brand-sub{font-family:'Inter'; font-weight:500; font-size:12px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:1px;}
   .month-nav{display:flex; align-items:center; gap:14px; font-weight:600;}
@@ -122,7 +141,7 @@
   .item-del{width:22px; height:22px; border:none; background:transparent; color:var(--ink-soft); cursor:pointer; border-radius:50%; display:flex; align-items:center; justify-content:center;}
   .item-del:hover{background:var(--danger-soft); color:var(--danger);}
   .add-item-form{display:flex; gap:8px; margin-top:14px;}
-  .add-item-form input{padding:11px 14px; border-radius:10px; border:1.5px solid var(--border); background:var(--surface-2); color:var(--ink); font-family:'Inter'; font-size:14px; outline:none; transition:border-color .15s;}
+  .add-item-form input{padding:11px 14px; border-radius:10px; border:1.5px solid var(--border); background:var(--surface-2); color:var(--ink); font-family:'Inter'; font-size:16px; outline:none; transition:border-color .15s;}
   .add-item-form input:focus{border-color:var(--primary);}
   .add-item-form input.error{border-color:var(--danger);}
   .add-item-form input.name{flex:1;}
@@ -174,7 +193,7 @@
   .range-minmax{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-soft); margin-bottom:18px;}
   .field{margin-bottom:16px;}
   .field label{display:block; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-soft); margin-bottom:6px;}
-  .field input{width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-2); color:var(--ink); font-family:'JetBrains Mono',monospace; font-size:15px;}
+  .field input{width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-2); color:var(--ink); font-family:'JetBrains Mono',monospace; font-size:16px;}
   .progress-bar{height:10px; border-radius:6px; background:var(--bg-alt); overflow:hidden; margin-top:6px;}
   .progress-bar > div{height:100%; background:var(--secondary); width:0%; transition:width .3s ease;}
   .progress-label{display:flex; justify-content:space-between; font-size:12px; color:var(--ink-soft); margin-top:6px;}
@@ -189,7 +208,32 @@
     .hero-grid, .charts-grid, .savings-grid, .q-row, .stat-row, .cal-chips{grid-template-columns:1fr;}
     .topbar{flex-wrap:wrap;}
   }
+
+  @media(max-width:480px){
+    .brand{font-size:16px;}
+    .brand-sub{display:none;}
+    .topbar{padding:calc(14px + env(safe-area-inset-top)) 14px 12px; gap:8px;}
+    #monthLabel{min-width:0; font-size:13px;}
+    .month-nav{gap:8px;}
+    .tabs{padding:10px 14px 0; gap:4px;}
+    .tab-btn{padding:8px 12px; font-size:13px;}
+    main{padding:14px 14px 0;}
+    .card{padding:16px;}
+    .ring-wrap{width:170px; height:170px;}
+    .ring-center .amount{font-size:18px;}
+    .stat-row{gap:10px;}
+    .stat-box{padding:12px;}
+    .chart-card{height:250px;}
+    .chart-card .chart-box{height:185px;}
+    .add-item-form{flex-wrap:wrap;}
+    .add-item-form input.name{min-width:100%; order:3;}
+    .add-item-form button{flex:1; justify-content:center;}
+    .cal-day{font-size:10px;}
+    main{padding-bottom:calc(30px + env(safe-area-inset-bottom));}
+  }
 </style>
+</head>
+<body>
 
 <div id="app" data-theme="light">
   <header class="topbar">
@@ -399,6 +443,8 @@
   function applyTheme(){
     document.getElementById('app').setAttribute('data-theme', state.darkMode ? 'dark':'light');
     document.getElementById('themeToggle').innerHTML = svgIcon(state.darkMode ? 'sun':'moon', 'var(--accent)');
+    const meta = document.getElementById('themeColorMeta');
+    if(meta) meta.setAttribute('content', state.darkMode ? '#171A21' : '#F2EFE9');
   }
 
   // ---------- TABS ----------
@@ -866,3 +912,5 @@
   })();
 })();
 </script>
+</body>
+</html>
